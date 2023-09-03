@@ -28,22 +28,19 @@
     "electron": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "electron-build": "npm run build && electron-builder",
     "electron:package:win": "npm run build && electron-builder -w -c.extraMetadata.main=build/electron.js",
     "electron:package:linux": "npm run build && electron-builder -l -c.extraMetadata.main=build/electron.js"
   },
   "build": {
     "appId": "com.example.cronometro",
-    "productName": "Cronômetro",
-    "directories": {
-      "buildResources": "public"
-    },
+    "productName": "Cronometro",    
     "files": [
       "build/**/*",
-      "node_modules/**/*",
-      "electron/**/*",
-      "public/**/*"
-    ]
+      "node_modules/**/*"      
+    ],
+    "directories": {
+      "buildResources": "public"
+    }
   },
   "eslintConfig": {
     "extends": [

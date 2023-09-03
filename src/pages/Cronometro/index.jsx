@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button, Buttons, Container, Nunber } from './styles';
 
-
 export function Cronometro() {
   const [tempoRestante, setTempoRestante] = useState(180); // 3 minutos em segundos
   const [emExecucao, setEmExecucao] = useState(false);
@@ -68,6 +67,8 @@ export function Cronometro() {
     setEmExecucao(false);
   };
 
+  const isVermelho = tempoRestante <= 50;
+
   const formatarTempo = () => {
     const minutos = Math.floor(tempoRestante / 60);
     const segundos = tempoRestante % 60;
@@ -78,21 +79,21 @@ export function Cronometro() {
     return `${minutos}:${segundosFormatados}`;
   };
 
+
   return (
     <Container>
-      <div className="cronometro">
-        <h1>Cronômetro</h1>
-        <Nunber className='number'>{formatarTempo()}</Nunber>
-      </div>
-      <Buttons>
-        <Button onClick={emExecucao ? pauseCronometro : startCronometro}>
-          {emExecucao ? 'Pausar' : 'Iniciar'}
-        </Button>
-        <Button onClick={resetCronometro}>Reiniciar</Button>
-      </Buttons>
-    </Container>
+    <div className="cronometro">
+      <h1>Cronômetro</h1>
+      <Nunber className='number' isVermelho={isVermelho}>
+        {formatarTempo()}
+      </Nunber>
+    </div>
+    <Buttons>
+      <Button onClick={emExecucao ? pauseCronometro : startCronometro}>
+        {emExecucao ? 'Pausar' : 'Iniciar'}
+      </Button>
+      <Button onClick={resetCronometro}>Reiniciar</Button>
+    </Buttons>
+  </Container>
   );
 }
-
-
-
