@@ -34,7 +34,7 @@ export const Button = styled.button`
 
 export const Nunber = styled.p`
   font-family: 'Roboto Mono', monospace;
-  font-size: 25rem;
+  font-size: 30rem;
   line-height: 8rem;
   /* Aplica a cor vermelha quando a prop isVermelho for verdadeira */
   color: ${(props) => (props.isVermelho ? 'red' : '#84cc16')};

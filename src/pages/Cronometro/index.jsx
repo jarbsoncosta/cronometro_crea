@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button, Buttons, Container, Nunber } from './styles';
+import sireneSound from '../../audio/buzina.mp3';
 
 export function Cronometro() {
   const [tempoRestante, setTempoRestante] = useState(180); // 3 minutos em segundos
@@ -16,11 +17,20 @@ export function Cronometro() {
           pauseCronometro();
         } else {
           startCronometro();
+        }        
+      }else if(event.key === '+'){
+        if(!emExecucao){
+          setTempoRestante(15);
+          setEmExecucao(true);
+       
         }
+      }else if (event.key === '/' && tempoRestante === 180) {
+        const audio = new Audio(sireneSound);
+        audio.play();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+   window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
@@ -31,7 +41,6 @@ export function Cronometro() {
     if (emExecucao) {
       intervalID = setInterval(decrementarTempo, 1000);
     } else if (tempoRestante === 0) {
-      clearInterval(intervalID);
       resetCronometro();
     }
 
@@ -65,6 +74,8 @@ export function Cronometro() {
     clearInterval(intervalID);
     setTempoRestante(180); // Reset para 3 minutos em segundos
     setEmExecucao(false);
+    const audio = new Audio(sireneSound);
+    audio.play();
   };
 
   const isVermelho = tempoRestante <= 50;
