@@ -4,8 +4,11 @@ const path = require ("path")
 
 
 function createWindow(){
-    const win = new BrowserWindow({width:1280,
-     height:1024,
+    const win = new BrowserWindow({
+     width: 1440,
+     height: 900,
+     fullscreen: true, // Define a janela para abrir em modo tela cheia
+     autoHideMenuBar: true, // Exibe a barra de menu
      webPreferences:{
         preload:path.join(__dirname, "preloader.js")
      }    
