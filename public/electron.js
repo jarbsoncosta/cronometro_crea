@@ -11,7 +11,8 @@ function createWindow(){
      autoHideMenuBar: true, // Exibe a barra de menu
      webPreferences:{
         preload:path.join(__dirname, "preloader.js")
-     }    
+     },
+     focusable: true // Tornar a janela focável desde o início  
     });
     win.loadURL(isDev ? "http://localhost:3000/" : `file://${path.join(__dirname, "../build/index.html")}`)
 }

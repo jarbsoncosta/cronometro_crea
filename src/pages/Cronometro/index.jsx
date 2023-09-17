@@ -24,7 +24,7 @@ export function Cronometro() {
           setEmExecucao(true);
        
         }
-      }else if (event.key === '/' && tempoRestante === 180) {
+      }else if (event.key === '/') {
         const audio = new Audio(sireneSound);
         audio.play();
       }
