@@ -1,41 +1,47 @@
-import { useState, useEffect } from 'react';
-import { Button, Buttons, Container, Nunber } from './styles';
-import sireneSound from '../../audio/buzina.mp3';
+import { useState, useEffect } from "react";
+import { Button, Buttons, Container, Nunber } from "./styles";
+import sireneSound from "../../audio/buzina.mp3";
 
 export function Cronometro() {
   const [tempoRestante, setTempoRestante] = useState(180); // 3 minutos em segundos
   const [emExecucao, setEmExecucao] = useState(false);
+  const [incrementos, setIncrementos] = useState(0); // Inicialmente, nenhum incremento
 
   let intervalID = null;
+  const incrementoTempo = 300; // 5 minutos em segundos
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === '-') {
+      if (event.key === "-") {
         window.location.reload();
-      } else if (event.key === 'Enter') {
+      } else if (event.key === "Enter") {
         if (emExecucao) {
           pauseCronometro();
         } else {
           startCronometro();
-        }        
-      }else if(event.key === '+'){
-        if(!emExecucao){
-          setTempoRestante(15);
-          setEmExecucao(true);
-       
         }
-      }else if (event.key === '/') {
+      } else if (event.key === "+") {
+        if (!emExecucao) {
+          setTempoRestante(15);
+        }
+      } else if (event.key === "1") {
+        if (!emExecucao) {
+          const novoTempo = 300 + incrementos * incrementoTempo;
+          setTempoRestante(novoTempo);
+          setIncrementos(incrementos + 1);
+        }
+      } else if (event.key === "/") {
         const audio = new Audio(sireneSound);
         audio.play();
       }
     };
 
-   window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [emExecucao]);
+  }, [emExecucao, tempoRestante]);
 
   useEffect(() => {
     if (emExecucao) {
@@ -74,6 +80,7 @@ export function Cronometro() {
     clearInterval(intervalID);
     setTempoRestante(180); // Reset para 3 minutos em segundos
     setEmExecucao(false);
+    setIncrementos(0);
     const audio = new Audio(sireneSound);
     audio.play();
   };
@@ -83,28 +90,27 @@ export function Cronometro() {
   const formatarTempo = () => {
     const minutos = Math.floor(tempoRestante / 60);
     const segundos = tempoRestante % 60;
-  
+
     // Adicione um zero à esquerda se os segundos forem menores que 10
     const segundosFormatados = segundos < 10 ? `0${segundos}` : segundos;
-  
+
     return `${minutos}:${segundosFormatados}`;
   };
 
-
   return (
     <Container>
-    <div className="cronometro">
-      <h1>Cronômetro</h1>
-      <Nunber className='number' isVermelho={isVermelho}>
-        {formatarTempo()}
-      </Nunber>
-    </div>
-    <Buttons>
-      <Button onClick={emExecucao ? pauseCronometro : startCronometro}>
-        {emExecucao ? 'Pausar' : 'Iniciar'}
-      </Button>
-      <Button onClick={resetCronometro}>Reiniciar</Button>
-    </Buttons>
-  </Container>
+      <div className="cronometro">
+        <h1>Cronômetro</h1>
+        <Nunber className="number" isVermelho={isVermelho}>
+          {formatarTempo()}
+        </Nunber>
+      </div>
+      <Buttons>
+        <Button onClick={emExecucao ? pauseCronometro : startCronometro}>
+          {emExecucao ? "Pausar" : "Iniciar"}
+        </Button>
+        <Button onClick={resetCronometro}>Reiniciar</Button>
+      </Buttons>
+    </Container>
   );
 }
